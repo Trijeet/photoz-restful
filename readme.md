@@ -21,28 +21,28 @@ A simple photo gallery app made with Laravel 5.8, implementing a REST API
 # Database Standards
 
 ## User
-1. <em>id</em>- autoincremented, primary key
-2. <em>username</em> - string, candidate key
-3. <em>first_name</em> - string
-4. <em>last_name</em> - string
-5. <em>email</em> - email, candidate key
-6. <em>gender</em> - integer. <strong>0: Male, 1: Female, 2: Others</strong>
-7. <em>profile_picture</em> - string (address to image in storage)
+1. <strong>id</strong>- autoincremented, primary key
+2. <strong>username</strong> - string, candidate key
+3. <strong>first_name</strong> - string
+4. <strong>last_name</strong> - string
+5. <strong>email</strong> - email, candidate key
+6. <strong>gender</strong> - integer. <strong>0: Male, 1: Female, 2: Others</strong>
+7. <strong>profile_picture</strong> - string (address to image in storage)
 
 ## Album
-1. <em>id</em> - autoincremented, primary
-2. <em>user_id</em> - foregin to User->id
-3. <em>album_name</em> - string
-4. <em>album_description</em> - mediumtext
-5. <em>cover_picture</em> - string (address to image in storage)
-6. <em>privacy</em> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
+1. <strong>id</strong> - autoincremented, primary
+2. <strong>user_id</strong> - foregin to User->id
+3. <strong>album_name</strong> - string
+4. <strong>album_description</strong> - mediumtext
+5. <strong>cover_picture</strong> - string (address to image in storage)
+6. <strong>privacy</strong> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
 
 ## Photo
-1. <em>id</em> - autoincremented, primary
-2. <em>album_id</em> - foregin to Album->id
-3. <em>photo_description</em> - mediumtext
-4. <em>photo</em> - string (address to image in storage)
-5. <em>privacy</em> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
+1. <strong>id</strong> - autoincremented, primary
+2. <strong>album_id</strong> - foregin to Album->id
+3. <strong>photo_description</strong> - mediumtext
+4. <strong>photo</strong> - string (address to image in storage)
+5. <strong>privacy</strong> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
 
 Each table contains timestamps for created_at and updated_at
 
