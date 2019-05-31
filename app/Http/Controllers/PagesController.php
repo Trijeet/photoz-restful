@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 //use GuzzleHttp\Client;
 use Auth;
 use App\User;
+use App\Album;
 
 class PagesController extends Controller
 {
@@ -43,14 +44,6 @@ class PagesController extends Controller
 
         return view('pages.users')->with('users',$users);
     }
-    public function dashboard()
-    {
-        if(Auth::check())   // API -> api/users/{user_id} with Auth
-            return view('pages.dash')->with('albums',Album::orderBy('created_at')->paginate(10));   
-        else
-            return redirect('/login');
-        
-    }
     public function myaccount()
     {
         if(Auth::check())// API -> api/users/{user_id} with Auth
@@ -72,11 +65,5 @@ class PagesController extends Controller
     {
         //return 'Register';
         return view('pages.register');
-    }
-    public function login()
-    {
-        //return 'login';
-        return view('pages.login');
-    }
-    
+    }    
 }

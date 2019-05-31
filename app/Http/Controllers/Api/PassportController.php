@@ -23,6 +23,7 @@ class PassportController extends Controller
         try
         { 
             $request_user = Request::create('/api/users/','POST',request()->all()); 
+            //return $request->input('profile_picture');
             $response = app()->handle($request_user);
             return $response;
         

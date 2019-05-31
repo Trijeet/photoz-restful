@@ -5,7 +5,7 @@
     <div class="container">
     <h1>Register New User</h1>
 
-    {{Form::open(['action'=>'UsersController@store',
+    {{Form::open(['action'=>'Api\PassportController@register',
                 'method'=>'POST',
                 'files'=>true,
                 'enctype'=> "multipart/form-data"])}}
@@ -27,11 +27,11 @@
         </div>
         <div class='form-group'>
             {{ Form::label('gender', 'Gender')}}
-            {{ Form::select('gender', ['Male' => 'Male', 'Female'=>'Female', 'Other'=>'Other'])}}
+            {{ Form::select('gender', ['1' => 'Male', '2'=>'Female', '3'=>'Other'])}}
         </div>
         <div class='form-group'>
-            {{ Form::label('profile_pic', 'Profile Picture')}}
-            {{ Form::file('profile_pic')}}
+            {{ Form::label('profile_picture', 'Profile Picture')}}
+            {{ Form::file('profile_picture')}}
         </div>
         <div class='form-group'>
             {{ Form::label('password', 'Password')}}

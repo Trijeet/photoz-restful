@@ -14,13 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
 
 //Pages Controller
-Route::get('/dash', 'PagesController@dashboard');   //User Dashboard, guest ->login page
 Route::get('/unauthorized', 'PagesController@unauthorized');
 Route::get('/error', 'PagesController@error');
 Route::get('/about', 'PagesController@about');  //About page

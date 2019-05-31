@@ -74,7 +74,7 @@
                     @auth
                         <a href="{{ url('/myaccount') }}">My Account</a>
                     @else
-                        <a href="/user/login">Login</a>
+                        <a href="/login">Login</a>
 
                         @if (Route::has('register'))
                             <a href="/user/register">Register</a>
