@@ -27,12 +27,14 @@ Route::get('/about', 'PagesController@about');  //About page
 Route::get('/users', 'PagesController@users'); //List of users
 Route::get('/myaccount', 'PagesController@myaccount');    // My account settings
 
+Route::get('/user/register','PagesController@register');
+Route::get('/user/login','PagesController@login');
 
 //Elements
-/*Route::resource('album','AlbumsController');
-Route::resource('photo','PhotosController');
+//Route::resource('album','AlbumsController');
+//Route::resource('photo','PhotosController');
 Route::resource('user','UsersController');
-Route::get('/photo/upload/{album_id}','PhotosController@upload');*/
+//Route::get('/photo/upload/{album_id}','PhotosController@upload');*/
 
 
 /*  Redirect any other queries

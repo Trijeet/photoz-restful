@@ -67,5 +67,16 @@ class PagesController extends Controller
     {
         return view('pages.error');        
     }
+
+    public function register()
+    {
+        //return 'Register';
+        return view('pages.register');
+    }
+    public function login()
+    {
+        //return 'login';
+        return view('pages.login');
+    }
     
 }
