@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## Photoz : A RESTful Photo Gallery App
+# Photoz : A RESTful Photo Gallery App
 A simple photo gallery app made with Laravel 5.8, implementing a REST API
 
 ## Instructions to run locally
@@ -18,9 +18,9 @@ A simple photo gallery app made with Laravel 5.8, implementing a REST API
 5. Host the application on a server <strong>php artisan serve</strong>
 6. Start application from <strong>localhost:8000</strong>
 
-## Database Standards
+# Database Standards
 
-# User
+## User
 1. <em>id</em>- autoincremented, primary key
 2. <em>username</em> - string, candidate key
 3. <em>first_name</em> - string
@@ -29,7 +29,7 @@ A simple photo gallery app made with Laravel 5.8, implementing a REST API
 6. <em>gender</em> - integer. <strong>0: Male, 1: Female, 2: Others</strong>
 7. <em>profile_picture</em> - string (address to image in storage)
 
-# Album
+## Album
 1. <em>id</em> - autoincremented, primary
 2. <em>user_id</em> - foregin to User->id
 3. <em>album_name</em> - string
@@ -37,7 +37,7 @@ A simple photo gallery app made with Laravel 5.8, implementing a REST API
 5. <em>cover_picture</em> - string (address to image in storage)
 6. <em>privacy</em> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
 
-# Photo
+## Photo
 1. <em>id</em> - autoincremented, primary
 2. <em>album_id</em> - foregin to Album->id
 3. <em>photo_description</em> - mediumtext
@@ -47,7 +47,7 @@ A simple photo gallery app made with Laravel 5.8, implementing a REST API
 Each table contains timestamps for created_at and updated_at
 
 
-## RESTful API
+# RESTful API
 
 ## User
 
