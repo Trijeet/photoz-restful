@@ -24,7 +24,7 @@ A <strong>Live Version</strong> of this application can be found <a href='https:
 3. <strong>first_name</strong> - string
 4. <strong>last_name</strong> - string
 5. <strong>email</strong> - email, candidate key
-6. <strong>gender</strong> - integer. <strong>0: Male, 1: Female, 2: Others</strong>
+6. <strong>gender</strong> - integer. <strong>1: Male, 2: Female, 3: Others</strong>
 7. <strong>profile_picture</strong> - string (address to image in storage)
 
 ## Album
@@ -33,14 +33,14 @@ A <strong>Live Version</strong> of this application can be found <a href='https:
 3. <strong>album_name</strong> - string
 4. <strong>album_description</strong> - mediumtext
 5. <strong>cover_picture</strong> - string (address to image in storage)
-6. <strong>privacy</strong> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
+6. <strong>privacy</strong> - integer. <strong>1: Public, 2: Link Accessible, 3: Private</strong>
 
 ## Photo
 1. <strong>id</strong> - autoincremented, primary
 2. <strong>album_id</strong> - foregin to Album->id
 3. <strong>photo_description</strong> - mediumtext
 4. <strong>photo</strong> - string (address to image in storage)
-5. <strong>privacy</strong> - integer. <strong>0: Public, 1: Link Accessible, 2: Private</strong>
+5. <strong>privacy</strong> - integer. <strong>1: Public, 2: Link Accessible, 3: Private</strong>
 
 Each table contains timestamps for created_at and updated_at
 
