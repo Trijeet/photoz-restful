@@ -15,8 +15,17 @@ class UserController extends Controller
     //Returns all users
     public function index()
     {
-        $users = User::all();
-        return response()->json(['users' => $users], 200);
+        try
+        {
+            $users = User::all('username');
+            return response()->json(['users' => $users], 200);
+        }
+        catch (\Exception $e)
+        {
+        
+            return response()->json(['success' => false,
+                                    'message' => $e->getMessage()], 500);
+        }
     }
 
     //Creates a new user
@@ -40,7 +49,7 @@ class UserController extends Controller
             catch (\Illuminate\Validation\ValidationException $e ) {
                 return \response($e->errors(),400);
             }
-
+            
             //Default Profile Picture
             $file_to_store = 'noimage.jpg';
             
@@ -85,7 +94,7 @@ class UserController extends Controller
     //Update User with username =$id if authenticated
     //Return status 200 for success
     public function update(Request $request, $id) //PUT
-    {
+    {   //return response('here',200);
         try
         {
             //Confirming correct user
@@ -105,7 +114,7 @@ class UserController extends Controller
                 ]);
             }
             catch (\Illuminate\Validation\ValidationException $e ) {
-                return response($e->errors(),400);
+                return response()->json($e->errors(),400);//($e->errors(),400);
             }
             
 
@@ -147,7 +156,7 @@ class UserController extends Controller
     //For authenticated user, returns all album details as well
     //For others, return a list of only public albums
     public function show($id) //GET
-    {
+    {   //return response()->json(['message'=>'Not found'],412);
         try
         {
             //Get the user
@@ -191,6 +200,7 @@ class UserController extends Controller
     //Returns status 200 for success
     public function destroy($id) //DELETE
     {
+        
         if(auth()->user()->username !== $id)
             return response()->json(['success' => false,
                 'message' => 'Unauthorized'], 401);
@@ -233,7 +243,7 @@ class UserController extends Controller
         {
         
             return response()->json(['success' => false,
-                                'message' => $e->getMessage()], 400);
+                                'message' => $e->getMessage()], 500);
         }
     }
 }

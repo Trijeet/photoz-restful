@@ -32,7 +32,7 @@ class AlbumController extends Controller
                 ]);
             }
             catch (\Illuminate\Validation\ValidationException $e ) {
-                return response($e->errors(),400);
+                return response()->json($e->errors(),400);
             }
             $file_to_store = 'noimage.jpg'; //default image
                 

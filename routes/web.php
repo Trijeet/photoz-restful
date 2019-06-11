@@ -14,30 +14,34 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-
-//Pages Controller
-Route::get('/unauthorized', 'PagesController@unauthorized');
-Route::get('/error', 'PagesController@error');
-Route::get('/about', 'PagesController@about');  //About page
-Route::get('/users', 'PagesController@users'); //List of users
-Route::get('/myaccount', 'PagesController@myaccount');    // My account settings
-
-Route::get('/user/register','PagesController@register');
-Route::get('/user/login','PagesController@login');
-
-//Elements
-//Route::resource('album','AlbumsController');
-//Route::resource('photo','PhotosController');
-Route::resource('user','UsersController');
-//Route::get('/photo/upload/{album_id}','PhotosController@upload');*/
+Route::get('/home', 'HomeController@index')->middleware('auth');
+Route::get('/about','Web\PageController@about');
 
 
-/*  Redirect any other queries
-Route::any('{query}', 
-  function() { return redirect('/'); })
-  ->where('query', '.*');
-*/
+Route::post('/register','Web\UserController@register')->middleware('guest');
+Route::post('/login','Web\UserController@login')->middleware('guest');
+
+Route::get('/users', 'Web\UserController@index');
+Route::get('/myaccount', 'Web\UserController@myaccount')->middleware('auth');
+
+Route::get('/users/{id}','Web\UserController@show');
+Route::delete('/users/{id}','Web\UserController@delete')->middleware('auth');
+Route::get('/users/{id}/edit','Web\UserController@edituser')->middleware('auth');
+Route::put('/users/{id}','Web\UserController@edit')->middleware('auth');
+
+Route::get('/albums/create','Web\AlbumController@createalbum')->middleware('auth');
+Route::post('/albums','Web\AlbumController@create')->middleware('auth');
+Route::get('/albums/{id}/edit','Web\AlbumController@editalbum')->middleware('auth');
+Route::put('/albums/{id}','Web\AlbumController@edit')->middleware('auth');
+Route::get('/albums/{id}','Web\AlbumController@show');
+Route::delete('/albums/{id}','Web\AlbumController@delete')->middleware('auth');
+
+Route::get('/photos/upload/{id}','Web\PhotoController@upload')->middleware('auth');
+Route::post('/photos','Web\PhotoController@create')->middleware('auth');
+Route::get('/photos/{id}/edit','Web\PhotoController@editphoto')->middleware('auth');
+Route::put('/photos/{id}','Web\PhotoController@edit')->middleware('auth');
+Route::get('/photos/{id}','Web\PhotoController@show');
+Route::delete('/photos/{id}','Web\PhotoController@delete')->middleware('auth');

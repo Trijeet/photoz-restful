@@ -32,7 +32,7 @@
                     <?php echo e(config('app.name', 'Photoz')); ?>
 
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<?php echo e(__('Toggle navigation')); ?>">
+                <button class="navbar-toggler" type="button" data-toggl e="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<?php echo e(__('Toggle navigation')); ?>">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -40,7 +40,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li> 
-                            <a class="nav-link" href="/dash">Dashboard</a>
+                            <a class="nav-link" href="/home">Dashboard</a>
                         </li>
                         <li> 
                             <a class="nav-link" href="/about">About</a>
@@ -59,7 +59,7 @@
                             </li>
                             <?php if(Route::has('register')): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/user/register"><?php echo e(__('Register')); ?></a>
+                                    <a class="nav-link" href="/register"><?php echo e(__('Register')); ?></a>
                                 </li>
                             <?php endif; ?>
                         <?php else: ?>

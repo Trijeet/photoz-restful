@@ -3,95 +3,75 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><?php echo e(__('Register')); ?></div>
+                <div class="card-header">Register New User</div>
+                <?php if(isset($error) and count($error)>0): ?>
+                    <?php $__currentLoopData = $error; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k =>$v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class='alert alert-danger'>
+                            <?php echo e($v[0]); ?>
 
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                    
+                <?php endif; ?>
                 <div class="card-body">
-                    <form method="POST" action="<?php echo e(route('register')); ?>">
-                        <?php echo csrf_field(); ?>
+                <?php echo e(Form::open(['action'=>'Web\UserController@register',
+                        'method'=>'POST',
+                        'files'=>true,
+                        'enctype'=> "multipart/form-data"])); ?>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Name')); ?></label>
+                <div class='form-group'>
+                    <?php echo e(Form::label('username', 'Username', ['class'=>'control-label'])); ?>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control <?php if ($errors->has('name')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('name'); ?> is-invalid <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>" name="name" value="<?php echo e(old('name')); ?>" required autocomplete="name" autofocus>
+                    <?php echo e(Form::text('username', '', ['class'=>'form-control', 'placeholder'=>'Enter Username'])); ?>
 
-                                <?php if ($errors->has('name')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('name'); ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($message); ?></strong>
-                                    </span>
-                                <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>
-                            </div>
-                        </div>
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('first_name', 'First Name')); ?>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right"><?php echo e(__('E-Mail Address')); ?></label>
+                    <?php echo e(Form::text('first_name', '', ['class'=>'form-control', 'placeholder'=>'Enter First Name'])); ?>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control <?php if ($errors->has('email')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('email'); ?> is-invalid <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>" name="email" value="<?php echo e(old('email')); ?>" required autocomplete="email">
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('last_name', 'Last Name')); ?>
 
-                                <?php if ($errors->has('email')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('email'); ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($message); ?></strong>
-                                    </span>
-                                <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>
-                            </div>
-                        </div>
+                    <?php echo e(Form::text('last_name', '', ['class'=>'form-control', 'placeholder'=>'Enter Last Name'])); ?>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Password')); ?></label>
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('email', 'Email')); ?>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control <?php if ($errors->has('password')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('password'); ?> is-invalid <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>" name="password" required autocomplete="new-password">
+                    <?php echo e(Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Enter Email'])); ?>
 
-                                <?php if ($errors->has('password')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('password'); ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($message); ?></strong>
-                                    </span>
-                                <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>
-                            </div>
-                        </div>
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('gender', 'Gender')); ?>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Confirm Password')); ?></label>
+                    <?php echo e(Form::select('gender', ['1' => 'Male', '2'=>'Female', '3'=>'Other'])); ?>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('profile_picture', 'Profile Picture')); ?>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <?php echo e(__('Register')); ?>
+                    <?php echo e(Form::file('profile_picture')); ?>
 
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('password', 'Password')); ?>
+
+                    <?php echo e(Form::password('password',['class'=>'form-control'])); ?>
+
+                </div>
+                <div class='form-group'>
+                    <?php echo e(Form::label('password_confirmation', 'Confirm Password')); ?>
+
+                    <?php echo e(Form::password('password_confirmation',['class'=>'form-control'])); ?>
+
+                </div>
+
+
+                    <?php echo e(Form::submit('Submit',['class'=>'btn btn-primary'])); ?>
+
+                    <?php echo e(Form::close()); ?>
+
                 </div>
             </div>
         </div>

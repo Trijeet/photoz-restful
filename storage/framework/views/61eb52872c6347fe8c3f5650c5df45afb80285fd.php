@@ -3,25 +3,20 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">List of Users - </div>
-
-                <div class="card-body">
-                <?php if(count($users)>0): ?>
+                <div class="card-header">List of Users</div>
+                <div class='card-body'>                    
+                    <?php if(isset($users) and count($users)>0): ?>
                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="well">
+                            
+                            <div>
                                 <h6><?php echo e($loop->iteration); ?>.  
-                                    <a href="/user/<?php echo e($user->username); ?>"> <?php echo e($user->username); ?>
-
-                                <a></h6>
+                                    <a href="/users/<?php echo e($user['username']); ?>"><?php echo e($user['username']); ?><a>
+                                </h6>
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <?php echo e($users->links()); ?>
-
                     <?php else: ?>
-                        <p>No User found.</p>
+                        No Users to show.
                     <?php endif; ?>
-                    
-
                 </div>
             </div>
         </div>

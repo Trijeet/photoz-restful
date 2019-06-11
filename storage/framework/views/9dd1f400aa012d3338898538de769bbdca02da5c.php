@@ -3,12 +3,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">About Page</div>
+                <div class="card-header">About Photoz</div>
+                <div class='card-body'>
+                    This is the About Section.
+                    <br><br>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+                    Reprehenderit laudantium, obcaecati aut quam necessitatibus at numquam animi<br>
+                    fugiat perspiciatis magnam sapiente, laborum soluta deleniti. Nemo in libero nobis excepturi ea.
 
-                <div class="card-body">
-                    <p>This is the about section.</p>
-                    <br>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora officiis debitis, inventore possimus beatae nihil quas accusamus voluptates totam sequi quidem sapiente facere voluptatum in vitae exercitationem unde eius porro.</p>
+                    <br><br>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+                    Reprehenderit laudantium, obcaecati aut quam necessitatibus at numquam animi<br>
+                    fugiat perspiciatis magnam sapiente, laborum soluta deleniti. Nemo in libero nobis excepturi ea.
                 </div>
             </div>
         </div>

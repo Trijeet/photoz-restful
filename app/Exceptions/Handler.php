@@ -46,28 +46,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        //To render http exceptions neatly
-        /*if($this->isHttpException($e))
-        {
-            //return 'yoo';//json(['success' =>false,'message' => 'Bad HTTP Request'], 404);
-            switch ($e->getStatusCode()) 
-            {
-                // not found
-                case 404:
-                return redirect()->guest('home');
-                break;
-
-                // internal error
-                case '500':
-                return redirect()->guest('home');
-                break;
-
-                default:
-                    return $this->renderHttpException($e);
-                break;
-            }
-        }*/
-
         return parent::render($request, $exception);
     }
 }

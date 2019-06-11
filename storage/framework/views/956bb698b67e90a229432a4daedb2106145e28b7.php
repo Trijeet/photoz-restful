@@ -3,86 +3,36 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><?php echo e(__('Login')); ?></div>
+                <div class="card-header">Login</div>
+                    <?php if(isset($error) and count($error)>0): ?>
+                        <?php $__currentLoopData = $error; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k =>$v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class='alert alert-danger'>
+                                <?php echo e($v[0]); ?>
 
-                <div class="card-body">
-                    <form method="POST" action="<?php echo e(route('login')); ?>">
-                        <?php echo csrf_field(); ?>
-
-                        <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Username')); ?></label>
-
-                            <div class="col-md-6">
-                                <input id="username" type="text" class="form-control <?php if ($errors->has('username')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('username'); ?> is-invalid <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>" name="username" value="<?php echo e(old('username')); ?>" required autocomplete="username" autofocus>
-
-                                <?php if ($errors->has('username')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('username'); ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($message); ?></strong>
-                                    </span>
-                                <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>
                             </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                    
+                    <?php endif; ?>
+                    <div class="card-body">
+                        <?php echo e(Form::open(['action'=>'Web\UserController@login',
+                                'method'=>'POST'])); ?>
+
+                        <div class='form-group'>
+                            <?php echo e(Form::label('username', 'Username', ['class'=>'control-label'])); ?>
+
+                            <?php echo e(Form::text('username', '', ['class'=>'form-control', 'placeholder'=>'Enter Username'])); ?>
+
                         </div>
+                        <div class='form-group'>
+                            <?php echo e(Form::label('password', 'Password')); ?>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Password')); ?></label>
+                            <?php echo e(Form::password('password',['class'=>'form-control'])); ?>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control <?php if ($errors->has('password')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('password'); ?> is-invalid <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>" name="password" required autocomplete="current-password">
-
-                                <?php if ($errors->has('password')) :
-if (isset($message)) { $messageCache = $message; }
-$message = $errors->first('password'); ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($message); ?></strong>
-                                    </span>
-                                <?php unset($message);
-if (isset($messageCache)) { $message = $messageCache; }
-endif; ?>
-                            </div>
                         </div>
+                            <?php echo e(Form::submit('Submit',['class'=>'btn btn-primary'])); ?>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
+                            <?php echo e(Form::close()); ?>
 
-                                    <label class="form-check-label" for="remember">
-                                        <?php echo e(__('Remember Me')); ?>
-
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <?php echo e(__('Login')); ?>
-
-                                </button>
-
-                                <?php if(Route::has('password.request')): ?>
-                                    <a class="btn btn-link" href="<?php echo e(route('password.request')); ?>">
-                                        <?php echo e(__('Forgot Your Password?')); ?>
-
-                                    </a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
             </div>
         </div>
     </div>

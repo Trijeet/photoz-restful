@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\BadResponseException;
+
 use Illuminate\Http\Request;
+
 use Auth;
-use App\Album;
+use Session;
 
 class HomeController extends Controller
 {
@@ -26,8 +31,33 @@ class HomeController extends Controller
     public function index()
     {
         if(Auth::check())
-            return view('home')->with('albums',Album::orderBy('created_at')->paginate(10));
-        else
-            return redirect('/login');
+        {
+            try
+            {
+                $req = new Client;
+                $response = $req->request('GET',url('/').'/api/users/'.Auth::user()->username,[
+                        'headers' => [
+                            'Authorization' => 'Bearer ' . Session::get('access_token'),        
+                            'Accept'        => 'application/json',
+                        ]
+                ]);
+            }        
+            catch(BadResponseException $ex)
+            {
+                //return $ex->getResponse();
+                return view('home')->with(['message'=>'Unauthorized']);
+            }
+            if($response->getStatusCode() == 200)
+            {
+                $data = json_decode($response->getBody()->getContents(), true);
+                return view('home')->with('albums',$data['albums']);
+            }
+            else
+            {
+                return 'Error';
+            }
+        }       
+        
+        return view('home');
     }
 }

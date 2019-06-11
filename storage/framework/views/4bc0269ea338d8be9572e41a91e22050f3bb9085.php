@@ -72,12 +72,12 @@
             <?php if(Route::has('login')): ?>
                 <div class="top-right links">
                     <?php if(auth()->guard()->check()): ?>
-                        <a href="<?php echo e(url('/myaccount')); ?>">My Account</a>
+                        <a href="/myaccount">My Account</a>
                     <?php else: ?>
                         <a href="/login">Login</a>
 
                         <?php if(Route::has('register')): ?>
-                            <a href="/user/register">Register</a>
+                            <a href="/register">Register</a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
@@ -93,7 +93,7 @@
                 
 
                 <div class="links">
-                    <a href="/dash">Dashboard</a>
+                    <a href="/home">Dashboard</a>
                     <a href="/about">About</a>
                     <a href="/users">Users</a>
                 </div>

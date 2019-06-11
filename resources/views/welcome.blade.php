@@ -72,12 +72,12 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/myaccount') }}">My Account</a>
+                        <a href="/myaccount">My Account</a>
                     @else
                         <a href="/login">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="/user/register">Register</a>
+                            <a href="/register">Register</a>
                         @endif
                     @endauth
                 </div>
@@ -93,7 +93,7 @@
                 
 
                 <div class="links">
-                    <a href="/dash">Dashboard</a>
+                    <a href="/home">Dashboard</a>
                     <a href="/about">About</a>
                     <a href="/users">Users</a>
                 </div>

@@ -5,23 +5,20 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">List of Users - </div>
-
-                <div class="card-body">
-                @if(count($users)>0)
+                <div class="card-header">List of Users</div>
+                <div class='card-body'>                    
+                    @if(isset($users) and count($users)>0)
                         @foreach($users as $user)
-                            <div class="well">
+                            
+                            <div>
                                 <h6>{{$loop->iteration}}.  
-                                    <a href="/user/{{$user->username}}"> {{$user->username}}
-                                <a></h6>
+                                    <a href="/users/{{$user['username']}}">{{$user['username']}}<a>
+                                </h6>
                             </div>
                         @endforeach
-                        {{$users->links()}}
                     @else
-                        <p>No User found.</p>
+                        No Users to show.
                     @endif
-                    
-
                 </div>
             </div>
         </div>
