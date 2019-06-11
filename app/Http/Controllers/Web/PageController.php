@@ -13,4 +13,16 @@ class PageController extends Controller
     {
         return view('pages.about');
     }
+    public function unauth()
+    {
+        return view('pages.unauth');
+    }
+    public function error()
+    {
+        return view('pages.error');
+    }
+    public function success()
+    {
+        return view('pages.success');
+    }
 }

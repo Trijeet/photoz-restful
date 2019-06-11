@@ -28,7 +28,7 @@ class UserController extends Controller
         {            
             $data = json_decode($response->content(),true);
             Session::put('access_token',$data['token']);
-            return view('home')->with('message','Successfully Logged in');
+            return view('pages.success')->with('message','Successfully Logged in');
         }
         else if($response->status() === 401)
         {
@@ -57,7 +57,8 @@ class UserController extends Controller
                         ],
                         [
                             'name' => 'profile_picture',
-                            'contents' => ($request->file('profile_picture') === null)?'':fopen($request->file('profile_picture'), 'r')
+                            'contents' => ($request->file('profile_picture') === null)?'':fopen($request->file('profile_picture'), 'r'),
+                            'filename' => ($request->file('profile_picture') === null)?'':$request->file('profile_picture')->getClientOriginalName()
                         ],
                         [
                             'name' => 'gender',
@@ -141,7 +142,7 @@ class UserController extends Controller
             }
             else if($response->status() == 404)
             {
-                return view('pages.myaccount')->with('message','User not found');
+                return view('pages.error')->with('message','User not found');
             }
             else
             {
@@ -172,7 +173,7 @@ class UserController extends Controller
             }
             else if($response->status() == 404)
             {
-                return view('pages.users')->with('message','User not found');
+                return view('pages.error')->with('message','User not found');
             }
             else
             {
@@ -191,7 +192,7 @@ class UserController extends Controller
         if(Auth::check() and Auth::user()->username === $id)
             return view('user.edituser');
         else
-            return view('home')->with('message','Unauthorized');
+            return view('pages.unauth');//->with('message','Unauthorized');
     }
     public function edit(Request $request, $id)
     {
@@ -214,7 +215,8 @@ class UserController extends Controller
                         ],
                         [
                             'name' => 'profile_picture',
-                            'contents' => ($request->file('profile_picture') === null)?'':fopen($request->file('profile_picture'), 'r')
+                            'contents' => ($request->file('profile_picture') === null)?'':fopen($request->file('profile_picture'), 'r'),
+                            'filename' => ($request->file('profile_picture') === null)?'':$request->file('profile_picture')->getClientOriginalName()
                         ],
                         [
                             'name' => 'gender',
@@ -249,7 +251,7 @@ class UserController extends Controller
         }
         if($response->getStatusCode() == 200)
         {
-            return view('home')->with(['message' => 'Successfully Edited']);
+            return view('pages.unauth')->with(['message' => 'Successfully Edited']);
         }
         else
         {
@@ -274,11 +276,11 @@ class UserController extends Controller
             }
             else if($response->getStatusCode() == 401)
             {
-                return view('home')->with('message','Not authorized');
+                return view('pages.unauth')->with('message','Not authorized');
             }
             else if($response->getStatusCode() == 404)
             {
-                return view('home')->with('message','User not found');
+                return view('pages.error')->with('message','User not found');
             }
             else
             {

@@ -13,7 +13,7 @@ class PhotoController extends Controller
     //Upload a photo ($request) to Album = $id, authenticated
     //Returns status 201 and photo id if successful
     public function store(Request $request)   //POST
-    {
+    {   //echo $request->file('photo')->c;
         try
         {
             $album = $request->input('album_id');

@@ -48,7 +48,8 @@ class AlbumController extends Controller
                         ],
                         [
                             'name' => 'cover_picture',
-                            'contents' => ($request->file('cover_picture') === null)?'':fopen($request->file('cover_picture'), 'r')
+                            'contents' => ($request->file('cover_picture') === null)?'':fopen($request->file('cover_picture'), 'r'),
+                            'filename' => ($request->file('cover_picture') === null)?'':$request->file('cover_picture')->getClientOriginalName()
                         ],
                         [
                             'name' => 'privacy',
@@ -71,7 +72,7 @@ class AlbumController extends Controller
         }
         if($response->getStatusCode() == 201)
         {
-            return view('home')->with(['message' => 'Album Successfully Created']);
+            return view('pages.success')->with(['message' => 'Album Successfully Created']);
         }
         else
         {
@@ -82,7 +83,7 @@ class AlbumController extends Controller
     {
         $album = Album::find($id);
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
-            return view('home')->with('message','Unauthorized');
+            return view('pages.unauth');//->with('message','Unauthorized');
         else
             return view('album.editalbum')->with('album_id',$id)->with('album_name',$album->album_name);            
     }
@@ -114,7 +115,8 @@ class AlbumController extends Controller
                         ],
                         [
                             'name' => 'cover_picture',
-                            'contents' => ($request->file('cover_picture') === null)?'':fopen($request->file('cover_picture'), 'r')
+                            'contents' => ($request->file('cover_picture') === null)?'':fopen($request->file('cover_picture'), 'r'),
+                            'filename' => ($request->file('cover_picture') === null)?'':$request->file('cover_picture')->getClientOriginalName()
                         ],
                         [
                             'name' => 'privacy',
@@ -140,7 +142,7 @@ class AlbumController extends Controller
         }
         if($response->getStatusCode() == 200)
         {
-            return view('home')->with(['message' => 'Album Successfully Updated']);
+            return view('pages.success')->with(['message' => 'Album Successfully Updated']);
         }
         else
         {
@@ -172,7 +174,7 @@ class AlbumController extends Controller
             catch(BadResponseException $ex)
             {
                 //return $ex->getResponse();
-                return view('home')->with(['message'=>'Unauthorized']);
+                return view('pages.unauth');//->with(['message'=>'Unauthorized']);
             }
             if($response->getStatusCode() == 200)
             {
@@ -210,12 +212,12 @@ class AlbumController extends Controller
             }
             catch(BadResponseException $ex)
             {
-                return view('home')->with(['message'=>'Unauthorized']);
+                return view('pages.unauth');//->with(['message'=>'Unauthorized']);
             }
 
             if($response->getStatusCode()==200)
             {
-                return redirect('home')->with('message','Successfully Deleted!');
+                return view('pages.success')->with('message','Album Successfully Deleted!');
             }
             else
             {

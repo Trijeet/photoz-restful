@@ -20,6 +20,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->middleware('auth');
 Route::get('/about','Web\PageController@about');
 
+//Route::get('/unauth','Web\PageController@unauth');
+//Route::get('/error','Web\PageController@error');
+//Route::get('/success','Web\PageController@success');
+
 
 Route::post('/register','Web\UserController@register')->middleware('guest');
 Route::post('/login','Web\UserController@login')->middleware('guest');
