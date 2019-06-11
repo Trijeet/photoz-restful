@@ -4,13 +4,17 @@
 # Photoz : A RESTful Photo Gallery App
 A simple photo gallery app made with Laravel 5.8, implementing a REST API
 
+# Updates
+A <strong>Live Version</strong> of this application can be found <a href='https://photozbytrijeet.000webhostapp.com'>here<a>.
+
+
 ## Instructions to run locally
 1. Set up <strong>.env</strong> file with database name, username and password.
 2. Migrate Database using <strong>php artisan migrate:fresh</strong>.
-3. Set up Personal Client for Laravel Passport. <strong>php artisan passport:client --personal</strong>
-4. Symlink Database <strong>php artisan database:link</strong>
-5. Host the application on a server <strong>php artisan serve</strong>
-6. Start application from <strong>localhost:8000</strong>
+3. Set up Personal Client for Laravel Passport. <strong>php artisan passport:install </strong>
+4. Symlink Storage <strong>php artisan storage:link</strong>
+5. Host the application on a virtual <a href='https://weblizar.com/blog/how-setup-virtual-host-for-laravel-xampp-wamp/'>host<a>.
+
 
 # Database Standards
 
