@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 
 class AlbumController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('prevent-back-history');
+    }
     public function createAlbum()
     {
         return view('album.createalbum');
@@ -27,14 +32,32 @@ class AlbumController extends Controller
         try
         {
             $response = $req->request('POST',url('/').'/api/albums',[
-                    'form_params' => [
+                    /*'form_params' => [
                         'album_name' => $request->album_name,
                         'album_description' => $request->album_description,
                         'privacy' => $request->privacy,
-                    ],
+                    ],*/
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
                         'Accept'        => 'application/json',
+                    ],
+                    'multipart' => [
+                        [
+                            'name' => 'album_name',
+                            'contents' => $request->album_name
+                        ],
+                        [
+                            'name' => 'cover_picture',
+                            'contents' => ($request->file('cover_picture') === null)?'':fopen($request->file('cover_picture'), 'r')
+                        ],
+                        [
+                            'name' => 'privacy',
+                            'contents' => $request->privacy
+                        ],
+                        [
+                            'name' => 'album_description',
+                            'contents' => $request->album_description
+                        ]
                     ]
             ]);
         }        
@@ -66,18 +89,41 @@ class AlbumController extends Controller
 
     public function edit(Request $request, $id)
     {
+        //dd($request);
         $req = new Client;            
         try
         {
-            $response = $req->request('PUT',url('/').'/api/albums/'.$id,[
-                    'form_params' => [
+            $response = $req->request('POST',url('/').'/api/albums/'.$id,[
+                    /*'form_params' => [
                         'album_name' => $request->album_name,
                         'album_description' => $request->album_description,
                         'privacy' => $request->privacy,
-                    ],
+                    ],*/
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
                         'Accept'        => 'application/json',
+                    ],
+                    'multipart' => [
+                        [
+                            'name' => 'album_name',
+                            'contents' => $request->album_name
+                        ],
+                        [
+                            'name' => '_method',
+                            'contents' => 'PUT'
+                        ],
+                        [
+                            'name' => 'cover_picture',
+                            'contents' => ($request->file('cover_picture') === null)?'':fopen($request->file('cover_picture'), 'r')
+                        ],
+                        [
+                            'name' => 'privacy',
+                            'contents' => $request->privacy
+                        ],
+                        [
+                            'name' => 'album_description',
+                            'contents' => $request->album_description
+                        ]
                     ]
             ]);
         }        
@@ -87,7 +133,10 @@ class AlbumController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            return view('album.createalbum')->with(['error'=>$errors]);
+            //dd($ex->getResponse())->getBody();
+            $album = Album::find($id);
+            return view('album.editalbum')->with(['error'=>$errors])
+                ->with('album_id',$id)->with('album_name',$album->album_name);;
         }
         if($response->getStatusCode() == 200)
         {

@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 
 class PhotoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('prevent-back-history');
+    }
     public function upload($id)
     {
         $album=Album::find($id);
@@ -27,20 +31,37 @@ class PhotoController extends Controller
 
     public function create(Request $request)
     {
-           
         $req = new Client;
         try
         {   
-            //return 'adadas '.$request->album_id;
+            //dd($request);
             $response = $req->request('POST',url('/').'/api/photos',[
-                    'form_params' => [
+                    /*'form_params' => [
                         'album_id' => $request->album_id,
                         'photo_description' => $request->photo_description,
                         'privacy' => $request->privacy,
-                    ],
+                    ],*/
                     'headers' => [
                         'Authorization' => 'Bearer '.Session::get('access_token'),        
                         'Accept'        => 'application/json',
+                    ],
+                    'multipart' => [
+                        [
+                            'name' => 'privacy',
+                            'contents' => $request->privacy
+                        ],
+                        [
+                            'name' => 'photo',
+                            'contents' => ($request->file('photo') === null)?'':fopen($request->file('photo'), 'r')
+                        ],
+                        [
+                            'name' => 'album_id',
+                            'contents' => $request->album_id
+                        ],
+                        [
+                            'name' => 'photo_description',
+                            'contents' => $request->photo_description
+                        ]
                     ]
             ]);
         }        
@@ -50,6 +71,7 @@ class PhotoController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
+            //dd($ex->getResponse());
             return view('photo.uploadphoto')->with(['error'=>$errors])->with('id',$request->album_id);
         }
         if($response->getStatusCode() == 201)
@@ -57,8 +79,8 @@ class PhotoController extends Controller
             return view('home')->with(['message' => 'Photo Successfully Uploaded']);
         }
         else
-        {
-            return 'Internal Server Error!<br>Check api/albums/create<br>';
+        {   
+            return 'Internal Server Error!<br>Check api/photos/create<br>';
         }  
     }
 

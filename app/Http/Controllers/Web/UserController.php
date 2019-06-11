@@ -14,6 +14,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('prevent-back-history');
+    }
+
     public function login(Request $request)
     {
         $req = Request::create('/api/login/','POST',
@@ -39,45 +44,60 @@ class UserController extends Controller
     {
         try
         {
-            if($request->hasFile('profile_picture'))
-            {
-                $request_user = Request::create('/api/users/','POST',
-                                                request()->all(),
-                                                [],[$request->file('profile_picture')], $_SERVER); 
-            }
-            else
-            {
-                $request_user = Request::create('/api/users/','POST',
-                                                request()->all(),
-                                                [],[], $_SERVER);
-            }
-            $response = app()->handle($request_user);
-            if($response->status() == 400)
-            {
-                $r = $response->content();                
-                $data = json_decode($r);
-                $errors = [];
-                foreach($data as $k=>$v)
-                    $errors[$k]=$v;
-
-                return view('auth.register')->with(['error'=>$errors]);
-
-            }
-            else if($response->status() == 201)
-            {
-                return view('auth.login')->with(['message' => 'Successfully Registered']);
-            }
-            else
-            {
-                return 'Internal Server Error!<br>Check api/users/create<br>'.$response;
-            }            
-         
-        } catch (\Exception $e)
-        {
-        
-            return response()->json(['success' => false,
-                                    'message' => $e->getMessage()], 500);
+            $req = new Client;
+            $response = $req->request('POST',url('/').'/api/users',[
+                    'multipart' => [
+                        [
+                            'name' => 'first_name',
+                            'contents' => $request->first_name
+                        ],
+                        [
+                            'name' => 'last_name',
+                            'contents' => $request->last_name
+                        ],
+                        [
+                            'name' => 'profile_picture',
+                            'contents' => ($request->file('profile_picture') === null)?'':fopen($request->file('profile_picture'), 'r')
+                        ],
+                        [
+                            'name' => 'gender',
+                            'contents' => $request->gender
+                        ],
+                        [
+                            'name' => 'password',
+                            'contents' => $request->password
+                        ],
+                        [
+                            'name' => 'password_confirmation',
+                            'contents' => $request->password_confirmation
+                        ],
+                        [
+                            'name' => 'username',
+                            'contents' => $request->username
+                        ],
+                        [
+                            'name' => 'email',
+                            'contents' => $request->email
+                        ]
+                    ]
+            ]);
         }
+        catch(BadResponseException $ex)
+        {
+            $data = json_decode($ex->getResponse()->getBody()->getContents(), true);
+            $errors = [];
+            foreach($data as $k=>$v)
+                $errors[$k]=$v;
+            return view('auth.register')->with(['error'=>$errors]);
+        }
+        if($response->getStatusCode() == 201)
+        {
+            return view('auth.login')->with(['message' => 'Successfully Registered']);
+        }
+        else
+        {
+            return 'Internal Server Error!<br>Check api/users/create<br>'.$response;
+        }    
     }
 
     public function index()
@@ -175,28 +195,50 @@ class UserController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $req = new Client;
         try
         {
-            $response = $req->request('PUT',url('/').'/api/users/'.$id,[
-                    'form_params' => [
-                        'first_name' => $request->first_name,
-                        'email' => $request->email,
-                        'last_name' => $request->last_name,
-                        'gender' => $request->gender,
-                        'password' => $request->password,
-                        'password_confirmation' => $request->password_confirmation,
-                    ],
+            $req = new Client;
+            $response = $req->request('POST',url('/').'/api/users/'.$id,[
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
                         'Accept'        => 'application/json',
                     ],
-                    /*'multipart' => [
-                        'name' => 'profile_picture',
-                        'contents' => fopen($request->profile_picture,'r')
-                    ]*/
-            ]); 
-        }           
+                    'multipart' => [
+                        [
+                            'name' => 'first_name',
+                            'contents' => $request->first_name
+                        ],
+                        [
+                            'name' => 'last_name',
+                            'contents' => $request->last_name
+                        ],
+                        [
+                            'name' => 'profile_picture',
+                            'contents' => ($request->file('profile_picture') === null)?'':fopen($request->file('profile_picture'), 'r')
+                        ],
+                        [
+                            'name' => 'gender',
+                            'contents' => $request->gender
+                        ],
+                        [
+                            'name' => 'password',
+                            'contents' => $request->password
+                        ],
+                        [
+                            'name' => 'password_confirmation',
+                            'contents' => $request->password_confirmation
+                        ],
+                        [
+                            'name' => 'email',
+                            'contents' => $request->email
+                        ],
+                        [
+                            'name' => '_method',
+                            'contents' => 'PUT'
+                        ]
+                    ]
+            ]);
+        }
         catch(BadResponseException $ex)
         {
             $data = json_decode($ex->getResponse()->getBody()->getContents(), true);

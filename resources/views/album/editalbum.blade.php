@@ -35,7 +35,6 @@
                     {{ Form::label('cover_picture', 'Cover Picture')}}
                     {{ Form::file('cover_picture')}}
                 </div>
-
                     {{Form::submit('Submit',['class'=>'btn btn-primary'])}}
                     {{Form::close()}}
                 </div>

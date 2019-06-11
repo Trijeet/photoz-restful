@@ -43,7 +43,6 @@
                     <?php echo e(Form::file('cover_picture')); ?>
 
                 </div>
-
                     <?php echo e(Form::submit('Submit',['class'=>'btn btn-primary'])); ?>
 
                     <?php echo e(Form::close()); ?>

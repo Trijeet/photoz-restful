@@ -43,7 +43,7 @@ class PhotoController extends Controller
             try
             {
                 $this->validate($request, [
-                    'photo_description' => ['string'],
+                    'photo_description' => ['string','nullable'],
                     'privacy' => ['required','integer','between:1,3'],
                     'photo' => ['required','image','max:1999'],
                 ]);

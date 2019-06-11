@@ -28,12 +28,13 @@
                         {{ Form::select('privacy', ['1' => 'Public', '2'=>'Link Accessible', '3'=>'Private'])}}
                     </div>
                     <div class='form-group'>
-                        {{ Form::label('photo_name', 'Upload Photo')}}
-                        {{ Form::file('photo_name')}}
+                        {{ Form::label('photo', 'Upload Photo')}}
+                        {{ Form::file('photo')}}
                     </div>
                         {{Form::hidden('album_id',$id)}}
                         {{Form::submit('Submit',['class'=>'btn btn-primary'])}}
                         {{Form::close()}}
+
                 </div>
             </div>
         </div>

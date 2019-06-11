@@ -64,6 +64,9 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        //http://geekhmer.github.io/blog/2017/07/10/laravel-5-dot-x-x-4-steps-to-prevent-browsers-back-button-after-user-logout/
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 
     /**

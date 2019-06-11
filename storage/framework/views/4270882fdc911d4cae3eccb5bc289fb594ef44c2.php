@@ -32,9 +32,9 @@
 
                     </div>
                     <div class='form-group'>
-                        <?php echo e(Form::label('photo_name', 'Upload Photo')); ?>
+                        <?php echo e(Form::label('photo', 'Upload Photo')); ?>
 
-                        <?php echo e(Form::file('photo_name')); ?>
+                        <?php echo e(Form::file('photo')); ?>
 
                     </div>
                         <?php echo e(Form::hidden('album_id',$id)); ?>
@@ -42,6 +42,7 @@
                         <?php echo e(Form::submit('Submit',['class'=>'btn btn-primary'])); ?>
 
                         <?php echo e(Form::close()); ?>
+
 
                 </div>
             </div>
