@@ -24,9 +24,9 @@ class PhotoController extends Controller
     {
         $album=Album::find($id);
         if($album == null or Auth::guest() or Auth::user()->id !== $album->user_id)
-            return view('pages.unauth');//->with('message','Unauthorized');
+            return redirect('/home')->with('error','Unauthorized');
         else
-            return view('photo.uploadphoto')->with('id',$id);
+            return view('photo.uploadphoto')->with(session(['id'=>$id]));
     }
 
     public function create(Request $request)
@@ -73,11 +73,13 @@ class PhotoController extends Controller
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
             //dd($ex->getResponse());
-            return view('photo.uploadphoto')->with(['error'=>$errors])->with('id',$request->album_id);
+            return redirect('/photos/upload/'.$request->album_id)->with('error',$errors)->with('id',$request->album_id);
         }
         if($response->getStatusCode() == 201)
-        {   //return $response->getBody();
-            return view('pages.success')->with('message','Photo Successfully Uploaded');
+        {   
+            $photo_id = json_decode($response->getBody(),true)['photo'];
+            return redirect('/photos/'.$photo_id)->with('success','Photo Uploaded Successfully!');
+            //return view('pages.success')->with('message','Photo Successfully Uploaded');
         }
         else
         {   
@@ -89,28 +91,39 @@ class PhotoController extends Controller
     {
         $photo = Photo::find($id);
         if($photo === null)
-            return view('pages.error')->with('message','No Such Photo');
+            //return view('pages.error')->with('message','No Such Photo');
+            return redirect('/home')->with('error','No Such Photo');
         $album = Album::find($photo->album_id);
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
-            return view('pages.unauth');
+            return redirect('/home')->with('error','Unauthorized Access');
         else
-            return view('photo.editphoto')->with('album_id',$photo->album_id)
-                ->with('photo_id',$id);            
+            return view('photo.editphoto')->with(session(['album_id',$photo->album_id,'photo_id',$id]));            
     }
 
     public function edit(Request $request, $id)
     {
+        return 'Asdadsa';
         $req = new Client;            
         try
-        {
-            $response = $req->request('PUT',url('/').'/api/photos/'.$id,[
-                    'form_params' => [
-                        'photo_description' => $request->photo_description,
-                        'privacy' => $request->privacy,
-                    ],
+        {               //$req->request('POST',url('/').'/api/albums/'.$id,[
+            $response = $req->request('POST',url('/').'/api/photos/'.$id,[
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
                         'Accept'        => 'application/json',
+                    ],
+                    'multipart' => [
+                        [
+                            'name' => '_method',
+                            'contents' => 'PUT'
+                        ],
+                        [
+                            'name' => 'privacy',
+                            'contents' => $request->privacy
+                        ],
+                        [
+                            'name' => 'photo_description',
+                            'contents' => $request->photo_description
+                        ]
                     ]
             ]);
         }        
@@ -120,12 +133,12 @@ class PhotoController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            return view('photo.editphoto')->with(['error'=>$errors])->with('album_id',$photo->album_id)
+            return redirect('/photos/'.$id.'/edit')->with('error',$errors)->with('album_id',$photo->album_id)
                         ->with('photo_id',$id);;
         }
         if($response->getStatusCode() == 200)
         {
-            return view('pages.success')->with(['message' => 'Photo Successfully Updated']);
+            return redirect('/photos/'.$id)->with('success','Photo Successfully Updated');
         }
         else
         {
@@ -157,7 +170,7 @@ class PhotoController extends Controller
             catch(BadResponseException $ex)
             {
                 //return $ex->getResponse();
-                return view('pages.unauth');//->with(['message'=>'Unauthorized']);
+                return redirect('/home')->with('error','Unauthorized');
             }
             if($response->getStatusCode() == 200)
             {
@@ -194,12 +207,14 @@ class PhotoController extends Controller
             }
             catch(BadResponseException $ex)
             {
-                return view('pages.unauth');//->with(['message'=>'Unauthorized']);
+                return redirect('/home')->with('error','Unauthorized');
+                //return view('pages.unauth');//->with(['message'=>'Unauthorized']);
             }
 
             if($response->getStatusCode()==200)
             {
-                return view('pages.success')->with('message','Photo Successfully Deleted!');
+                return redirect('/home')->with('success','Photo Successfully Deleted!');
+                //return view('pages.success')->with('message','Photo Successfully Deleted!');
             }
             else
             {

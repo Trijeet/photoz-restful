@@ -6,6 +6,16 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Photo - {{$photo['photo']}}</div>
+                    @if(session('error') !== null)                        
+                        <div class='alert alert-danger'>
+                            {{session('error')}}
+                        </div>
+                    @endif
+                    @if(session('success') !== null)                        
+                        <div class='alert alert-success'>
+                            {{session('success')}}
+                        </div>
+                    @endif
                 <div class='card-body'>
                     <img src='/storage/photos/{{$photo["photo"]}}'
                         height="256" width="256"> <br><br>

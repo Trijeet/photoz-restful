@@ -6,15 +6,15 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Edit Photo</div>
-                @if(isset($error) and count($error)>0)
-                    @foreach($error as $k =>$v)
+                @if(session('error') !== null)
+                    @foreach(session('error') as $k =>$v)
                         <div class='alert alert-danger'>
                             {{$v[0]}}
                         </div>
                     @endforeach                    
                 @endif
                 <div class="card-body">
-                    {{Form::open(['action'=>['Web\PhotoController@edit',$photo_id],
+                    {{Form::open(['action'=>['Web\PhotoController@edit',session('photo_id')],
                             'method'=>'PUT',
                             'files'=>true,
                             'enctype'=> "multipart/form-data"])}}
@@ -27,7 +27,7 @@
                         {{ Form::label('privacy', 'Privacy')}}
                         {{ Form::select('privacy', ['1' => 'Public', '2'=>'Link Accessible', '3'=>'Private'])}}
                     </div>
-                        {{Form::hidden('album_id',$album_id)}}
+                        {{Form::hidden('album_id',session('album_id'))}}
                         {{Form::submit('Submit',['class'=>'btn btn-primary'])}}
                         {{Form::close()}}
                 </div>

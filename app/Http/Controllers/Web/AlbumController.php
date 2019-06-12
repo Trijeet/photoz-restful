@@ -68,11 +68,13 @@ class AlbumController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            return view('album.createalbum')->with(['error'=>$errors]);
+            return redirect('/albums/create')->with('error',$errors);
+            //return view('album.createalbum')->with(['error'=>$errors]);
         }
         if($response->getStatusCode() == 201)
         {
-            return view('pages.success')->with(['message' => 'Album Successfully Created']);
+            return redirect('/home')->with('success','Album Successfully Created');
+            //return view('pages.success')->with(['message' => 'Album Successfully Created']);
         }
         else
         {
@@ -83,9 +85,9 @@ class AlbumController extends Controller
     {
         $album = Album::find($id);
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
-            return view('pages.unauth');//->with('message','Unauthorized');
+            return redirect('/home')->with('error','Not Available or Unauthorized');
         else
-            return view('album.editalbum')->with('album_id',$id)->with('album_name',$album->album_name);            
+            return view('album.editalbum')->with(session(['album_id'=>$id, 'album_name'=>$album->album_name]));            
     }
 
     public function edit(Request $request, $id)
@@ -137,12 +139,15 @@ class AlbumController extends Controller
                 $errors[$k]=$v;
             //dd($ex->getResponse())->getBody();
             $album = Album::find($id);
-            return view('album.editalbum')->with(['error'=>$errors])
+            //return view('album.editalbum')->with(['error'=>$errors])
+            //   ->with('album_id',$id)->with('album_name',$album->album_name);;
+            return redirect('/albums/'.$id.'/edit')->with('error',$errors)
                 ->with('album_id',$id)->with('album_name',$album->album_name);;
         }
         if($response->getStatusCode() == 200)
         {
-            return view('pages.success')->with(['message' => 'Album Successfully Updated']);
+            return redirect('/home')->with('success','Album Successfully Updated');
+            //return view('pages.success')->with(['message' => 'Album Successfully Updated']);
         }
         else
         {
@@ -174,7 +179,8 @@ class AlbumController extends Controller
             catch(BadResponseException $ex)
             {
                 //return $ex->getResponse();
-                return view('pages.unauth');//->with(['message'=>'Unauthorized']);
+                //return view('pages.unauth');//->with(['message'=>'Unauthorized']);
+                return redirect('/home')->with('error','Unauthorized');
             }
             if($response->getStatusCode() == 200)
             {
@@ -212,12 +218,14 @@ class AlbumController extends Controller
             }
             catch(BadResponseException $ex)
             {
-                return view('pages.unauth');//->with(['message'=>'Unauthorized']);
+                //return view('pages.unauth');//->with(['message'=>'Unauthorized']);
+                return redirect('/home')->with('error','Unauthorized');
             }
 
             if($response->getStatusCode()==200)
             {
-                return view('pages.success')->with('message','Album Successfully Deleted!');
+                //return view('pages.success')->with('message','Album Successfully Deleted!');
+                return redirect('/home')->with('success','Album Successfully Deleted!');
             }
             else
             {

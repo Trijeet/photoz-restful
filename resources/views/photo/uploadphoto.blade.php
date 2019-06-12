@@ -6,8 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Upload Photo</div>
-                @if(isset($error) and count($error)>0)
-                    @foreach($error as $k =>$v)
+                @if(session('error') !== null)
+                    @foreach(session('error') as $k =>$v)
                         <div class='alert alert-danger'>
                             {{$v[0]}}
                         </div>
@@ -31,7 +31,7 @@
                         {{ Form::label('photo', 'Upload Photo')}}
                         {{ Form::file('photo')}}
                     </div>
-                        {{Form::hidden('album_id',$id)}}
+                        {{Form::hidden('album_id',session('id'))}}
                         {{Form::submit('Submit',['class'=>'btn btn-primary'])}}
                         {{Form::close()}}
 

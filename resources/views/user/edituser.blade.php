@@ -13,6 +13,13 @@
                         </div>
                     @endforeach                    
                 @endif
+                @if(session('error') !== null)
+                    @foreach(session('error') as $k =>$v)
+                        <div class='alert alert-danger'>
+                            {{$v[0]}}
+                        </div>
+                    @endforeach                    
+                @endif
                 <div class="card-body">
                 {{Form::open(['action'=>['Web\UserController@edit',Auth::user()->username],
                         'method'=>'PUT',

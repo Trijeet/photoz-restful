@@ -6,8 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Register New User</div>
-                @if(isset($error) and count($error)>0)
-                    @foreach($error as $k =>$v)
+                @if(session('error') !== null)
+                    @foreach(session('error') as $k =>$v)
                         <div class='alert alert-danger'>
                             {{$v[0]}}
                         </div>

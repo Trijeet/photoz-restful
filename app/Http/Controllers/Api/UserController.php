@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Album;
 
@@ -43,7 +44,7 @@ class UserController extends Controller
                     'username' => ['required', 'string', 'alpha_num', 'unique:users'],
                     'password' => ['required', 'string', 'min:6', 'confirmed'],
                     'gender' => ['required','integer','between:1,3'],
-                    'profile_picture' => ['image','max:1999'],
+                    'profile_picture' => ['nullable','image','max:1999'],
                 ]);
             }
             catch (\Illuminate\Validation\ValidationException $e ) {
@@ -110,7 +111,7 @@ class UserController extends Controller
                     'email' => ['required', 'string', 'email', Rule::unique('users')->ignore($id,'username')],//could be same as old
                     'password' => ['required', 'string', 'min:6', 'confirmed'],
                     'gender' => ['required','integer','between:1,3'],
-                    'profile_picture' => ['image','max:1999'],
+                    'profile_picture' => ['nullable','image','max:1999'],
                 ]);
             }
             catch (\Illuminate\Validation\ValidationException $e ) {

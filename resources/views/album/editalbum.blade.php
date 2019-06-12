@@ -5,16 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit Album : {{$album_name}}</div>
-                @if(isset($error) and count($error)>0)
-                    @foreach($error as $k =>$v)
+                <div class="card-header">Edit Album : {{session('album_name')}}</div>
+                @if(session('error') !== null)
+                    @foreach(session('error') as $k =>$v)
                         <div class='alert alert-danger'>
                             {{$v[0]}}
                         </div>
                     @endforeach                    
                 @endif
                 <div class="card-body">
-                {{Form::open(['action'=>['Web\AlbumController@edit',$album_id],
+                {{Form::open(['action'=>['Web\AlbumController@edit',session('album_id')],
                         'method'=>'PUT',
                         'files'=>true,
                         'enctype'=> "multipart/form-data"])}}

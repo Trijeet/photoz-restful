@@ -32,7 +32,8 @@ class UserController extends Controller
         }
         else if($response->status() === 401)
         {
-            return view('auth.login')->with('error',[['Unauthorized']]);
+            return redirect('/login')->with('error','Invalid Username/Password');
+            //return view('auth.login')->with('error',[['Unauthorized']]);
         }
         else
         {
@@ -89,11 +90,12 @@ class UserController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            return view('auth.register')->with(['error'=>$errors]);
+            return redirect('/register')->with(['error'=>$errors]);
+            //return view('auth.register')->with(['error'=>$errors]);
         }
         if($response->getStatusCode() == 201)
         {
-            return view('auth.login')->with(['message' => 'Successfully Registered']);
+            return redirect('/login')->with('success','Successfully Registered');
         }
         else
         {
@@ -113,6 +115,7 @@ class UserController extends Controller
             {
                 $data = json_decode($response->content(),true);
                 
+                //return redirect('/users')->with('users',$data['users']);
                 return view('pages.users')->with('users',$data['users']);
             }
             else
@@ -173,7 +176,8 @@ class UserController extends Controller
             }
             else if($response->status() == 404)
             {
-                return view('pages.error')->with('message','User not found');
+                //return view('pages.error')->with('message','User not found');
+                return redirect('/users')->with('error','User not found');
             }
             else
             {
@@ -192,7 +196,7 @@ class UserController extends Controller
         if(Auth::check() and Auth::user()->username === $id)
             return view('user.edituser');
         else
-            return view('pages.unauth');//->with('message','Unauthorized');
+            return redirect('/home')->with('error','Unauthorized Acess');
     }
     public function edit(Request $request, $id)
     {
@@ -247,11 +251,13 @@ class UserController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            return view('user.edituser')->with(['error'=>$errors]);
+            //return view('user.edituser')->with(['error'=>$errors]);
+            return redirect('/users/'.$id.'/edit')->with(['error'=>$errors]);
         }
         if($response->getStatusCode() == 200)
         {
-            return view('pages.unauth')->with(['message' => 'Successfully Edited']);
+            return redirect('/home')->with('success','Successfully Edited');
+            //return view('pages.unauth')->with(['message' => 'Successfully Edited']);
         }
         else
         {
@@ -272,15 +278,17 @@ class UserController extends Controller
             ]);
             if($response->getStatusCode()==200)
             {
-                return redirect('/login')->with('error',[['Successfully Deleted!']]);
+                return redirect('/login')->with('success','Successfully Deleted!');
             }
             else if($response->getStatusCode() == 401)
             {
-                return view('pages.unauth')->with('message','Not authorized');
+                return redirect('/home')->with('error','Not Authorized');
+                //return view('pages.unauth')->with('message','Not authorized');
             }
             else if($response->getStatusCode() == 404)
             {
-                return view('pages.error')->with('message','User not found');
+                return redirect('/home')->with('error','No Such User');
+                //return view('pages.error')->with('message','User not found');
             }
             else
             {

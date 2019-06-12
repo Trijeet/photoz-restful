@@ -28,7 +28,7 @@ class AlbumController extends Controller
                     'album_name' => ['required', 'string'],
                     'album_description' => ['nullable','string'],
                     'privacy' => ['required','integer','between:1,3'],
-                    'cover_picture' => ['image','max:1999'],
+                    'cover_picture' => ['nullable','image','max:1999'],
                 ]);
             }
             catch (\Illuminate\Validation\ValidationException $e ) {
@@ -89,7 +89,7 @@ class AlbumController extends Controller
                     'album_name' => ['required', 'string'],
                     'album_description' => ['nullable','string'],
                     'privacy' => ['required','integer','between:1,3'],
-                    'cover_picture' => ['image','max:1999'],
+                    'cover_picture' => ['nullable','image','max:1999'],
                 ]);
             }
             catch (\Illuminate\Validation\ValidationException $e ) {

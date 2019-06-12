@@ -13,6 +13,17 @@
                             </div>
                         @endforeach                    
                     @endif
+                    @if(session('error') !== null)                        
+                        <div class='alert alert-danger'>
+                            {{session('error')}}
+                        </div>
+                    @endif
+                    @if(session('success') !== null)                        
+                        <div class='alert alert-success'>
+                            {{session('success')}}
+                        </div>
+                    @endif
+                    
                     <div class="card-body">
                         {{Form::open(['action'=>'Web\UserController@login',
                                 'method'=>'POST'])}}

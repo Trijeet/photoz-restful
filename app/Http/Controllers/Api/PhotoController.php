@@ -134,7 +134,7 @@ class PhotoController extends Controller
                 //'taken_on' => $Get from meta data
             ]);
 
-            return response()->json([],200);
+            return response()->json(['photo' => $photo->id],200);
         }
         catch(\Exception $e)
         {
@@ -148,7 +148,8 @@ class PhotoController extends Controller
     public function show($id)   //GET
     {
         try{
-            $photo = Photo::where('id','=',$id);//match photo id
+            $photo = Photo::where('id',$id);//match photo id
+            //$photo = Photo::find($id);
             if(count($photo->get())===0)
             {
                 return response()->json(['success' => false,
