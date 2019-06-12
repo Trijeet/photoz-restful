@@ -131,10 +131,12 @@ class AlbumController extends Controller
     //If user owns the album, returns all photos
     public function show($id)
     {
+        
         try{
             //Get the album
             $album = Album::where('id',$id);
-            
+            $album = Album::find($id)->first();
+        
             if(count($album->get()) === 0) //No album present
             {
                 return response()->json([

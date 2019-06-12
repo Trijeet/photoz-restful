@@ -158,6 +158,8 @@ class AlbumController extends Controller
 
     public function show($id)
     {
+        $album = Album::where('id','=',$id);
+        return $album->get();
         try
         {            
             $req = new Client;            
@@ -179,9 +181,11 @@ class AlbumController extends Controller
             }        
             catch(BadResponseException $ex)
             {
-                //return $ex->getResponse();
-                //return view('pages.unauth');//->with(['message'=>'Unauthorized']);
-                return redirect('/home')->with('error','Unauthorized');
+                //dd($ex);
+                if(Auth::check())
+                    return redirect('/home')->with('error','Unauthorized');
+                else
+                    return redirect('/login')->with('error','Unauthorized');
             }
             if($response->getStatusCode() == 200)
             {

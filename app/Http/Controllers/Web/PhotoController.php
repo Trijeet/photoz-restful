@@ -168,8 +168,10 @@ class PhotoController extends Controller
             }        
             catch(BadResponseException $ex)
             {
-                //return $ex->getResponse();
-                return redirect('/home')->with('error','Unauthorized');
+                if(Auth::check())
+                    return redirect('/home')->with('error','Unauthorized');
+                else
+                    return redirect('/login')->with('error','Unauthorized');
             }
             if($response->getStatusCode() == 200)
             {

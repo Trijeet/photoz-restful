@@ -21,6 +21,7 @@ class HomeController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
+        $this->middleware('prevent-back-history');
     }
 
     /**
@@ -45,7 +46,7 @@ class HomeController extends Controller
             catch(BadResponseException $ex)
             {
                 //return $ex->getResponse();
-                return view('home')->with(['message'=>'Unauthorized']);
+                return redirect('/users')->with('error','Unauthorized');
             }
             if($response->getStatusCode() == 200)
             {

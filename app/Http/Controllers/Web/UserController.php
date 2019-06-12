@@ -28,7 +28,8 @@ class UserController extends Controller
         {            
             $data = json_decode($response->content(),true);
             Session::put('access_token',$data['token']);
-            return view('pages.success')->with('message','Successfully Logged in');
+            //return view('pages.success')->with('message','Successfully Logged in');
+            return redirect('/home')->with('success','Successfully Logged in');
         }
         else if($response->status() === 401)
         {
