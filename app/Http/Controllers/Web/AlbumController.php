@@ -138,7 +138,8 @@ class AlbumController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            //dd($ex->getResponse())->getBody();
+            
+                
             $album = Album::find($id);
             //return view('album.editalbum')->with(['error'=>$errors])
             //   ->with('album_id',$id)->with('album_name',$album->album_name);;
@@ -159,7 +160,7 @@ class AlbumController extends Controller
     public function show($id)
     {
         $album = Album::where('id','=',$id);
-        //return $album->get();
+       
         try
         {            
             $req = new Client;            
@@ -181,7 +182,6 @@ class AlbumController extends Controller
             }        
             catch(BadResponseException $ex)
             {
-                //dd($ex);
                 if(Auth::check())
                     return redirect('/home')->with('error','Unauthorized');
                 else
@@ -190,15 +190,12 @@ class AlbumController extends Controller
             if($response->getStatusCode() == 200)
             {
                 $data = json_decode($response->getBody()->getContents(), true);
-                //return $data['data'][0];
-                //return $data['photos'];
-                $likes = 0;
-                //return $likes;
+                
                 return view('album.albumpage')->with('album',$data['data'][0])->with('photos',$data['photos']);
             }
             else
             {
-                return 'Internal Server Error!<br>Check api/albums/create<br>';
+                return 'Internal Server Error!<br>Check api/albums/show<br>';
             }     
 
 

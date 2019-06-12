@@ -134,9 +134,8 @@ class AlbumController extends Controller
         
         try{
             //Get the album
-            $album = Album::where('id',$id);
-            $album = Album::find($id)->first();
-        
+            $album = Album::where('id',$id);        
+            
             if(count($album->get()) === 0) //No album present
             {
                 return response()->json([

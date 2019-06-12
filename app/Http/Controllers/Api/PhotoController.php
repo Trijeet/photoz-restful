@@ -13,7 +13,7 @@ class PhotoController extends Controller
     //Upload a photo ($request) to Album = $id, authenticated
     //Returns status 201 and photo id if successful
     public function store(Request $request)   //POST
-    {   //echo $request->file('photo')->c;
+    {
         try
         {
             $album = $request->input('album_id');
@@ -130,9 +130,7 @@ class PhotoController extends Controller
             $photo = Photo::where('id',$id)->update([
                 'photo_description' => $request->photo_description,
                 'privacy' => $request->privacy,
-                'photo' => $file_to_store,
-                //'geo_location' => $ Get from meta_data
-                //'taken_on' => $Get from meta data
+                'photo' => $file_to_store
             ]);
 
             return response()->json([],200);
@@ -191,6 +189,7 @@ class PhotoController extends Controller
     {
         try{
             $photo = Photo::where('id',$id);//match photo id
+            
             if(count($photo->get())===0)
                 return response()->json(['success' => false,
                 'message' => 'Photo not found'],404);
