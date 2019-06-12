@@ -159,7 +159,7 @@ class AlbumController extends Controller
     public function show($id)
     {
         $album = Album::where('id','=',$id);
-        return $album->get();
+        //return $album->get();
         try
         {            
             $req = new Client;            
@@ -192,6 +192,8 @@ class AlbumController extends Controller
                 $data = json_decode($response->getBody()->getContents(), true);
                 //return $data['data'][0];
                 //return $data['photos'];
+                $likes = 0;
+                //return $likes;
                 return view('album.albumpage')->with('album',$data['data'][0])->with('photos',$data['photos']);
             }
             else
