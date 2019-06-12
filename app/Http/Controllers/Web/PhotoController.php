@@ -97,7 +97,8 @@ class PhotoController extends Controller
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
             return redirect('/home')->with('error','Unauthorized Access');
         else
-            return view('photo.editphoto')->with(session(['album_id',$photo->album_id,'photo_id',$id]));            
+            return view('photo.editphoto')->with(session(['album_id',$photo->album_id,'photo_id',$id]))
+                ->with('photo',$photo);            
     }
 
     public function edit(Request $request, $id)

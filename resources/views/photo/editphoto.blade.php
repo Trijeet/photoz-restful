@@ -21,11 +21,11 @@
 
                     <div class='form-group'>
                         {{ Form::label('photo_description', 'Description')}}
-                        {{ Form::textarea('photo_description', '', ['class'=>'form-control', 'placeholder'=>'Enter a description for the photo'])}}
+                        {{ Form::textarea('photo_description', isset($photo)?$photo->photo_description:'', ['class'=>'form-control', 'placeholder'=>'Enter a description for the photo'])}}
                     </div>
                     <div class='form-group'>
                         {{ Form::label('privacy', 'Privacy')}}
-                        {{ Form::select('privacy', ['1' => 'Public', '2'=>'Link Accessible', '3'=>'Private'])}}
+                        {{ Form::select('privacy', ['1' => 'Public', '2'=>'Link Accessible', '3'=>'Private'],isset($photo)?$photo->privacy:1)}}
                     </div>
                         {{Form::hidden('album_id',session('album_id'))}}
                         {{Form::submit('Submit',['class'=>'btn btn-primary'])}}

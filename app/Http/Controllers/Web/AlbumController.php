@@ -87,7 +87,8 @@ class AlbumController extends Controller
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
             return redirect('/home')->with('error','Not Available or Unauthorized');
         else
-            return view('album.editalbum')->with(session(['album_id'=>$id, 'album_name'=>$album->album_name]));            
+            return view('album.editalbum')->with(session(['album_id'=>$id, 'album_name'=>$album->album_name]))
+                ->with('album',$album);            
     }
 
     public function edit(Request $request, $id)

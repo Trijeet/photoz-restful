@@ -194,7 +194,7 @@ class UserController extends Controller
     public function edituser($id)
     {
         if(Auth::check() and Auth::user()->username === $id)
-            return view('user.edituser');
+            return view('user.edituser')->with('user',Auth::user());
         else
             return redirect('/home')->with('error','Unauthorized Acess');
     }

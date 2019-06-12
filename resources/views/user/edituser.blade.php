@@ -28,19 +28,19 @@
                 
                 <div class='form-group'>
                     {{ Form::label('first_name', 'First Name')}}
-                    {{ Form::text('first_name', '', ['class'=>'form-control', 'placeholder'=>'Enter First Name'])}}
+                    {{ Form::text('first_name', isset($user)?$user->first_name:'', ['class'=>'form-control', 'placeholder'=>'Enter First Name'])}}
                 </div>
                 <div class='form-group'>
                     {{ Form::label('last_name', 'Last Name')}}
-                    {{ Form::text('last_name', '', ['class'=>'form-control', 'placeholder'=>'Enter Last Name'])}}
+                    {{ Form::text('last_name', isset($user)?$user->last_name:'', ['class'=>'form-control', 'placeholder'=>'Enter Last Name'])}}
                 </div>
                 <div class='form-group'>
                     {{ Form::label('email', 'Email')}}
-                    {{ Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Enter Email'])}}
+                    {{ Form::text('email', isset($user)?$user->email:'', ['class'=>'form-control', 'placeholder'=>'Enter Email'])}}
                 </div>
                 <div class='form-group'>
                     {{ Form::label('gender', 'Gender')}}
-                    {{ Form::select('gender', ['1' => 'Male', '2'=>'Female', '3'=>'Other'])}}
+                    {{ Form::select('gender', ['1' => 'Male', '2'=>'Female', '3'=>'Other'],isset($user)?$user->gender:1)}}
                 </div>
                 <div class='form-group'>
                     {{ Form::label('profile_picture', 'Profile Picture')}}
