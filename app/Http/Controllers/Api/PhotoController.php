@@ -89,14 +89,15 @@ class PhotoController extends Controller
             $album = Photo::where('id',$id)->pluck('album_id')->first();
             //Get Associated User
             $user = Album::where('id',$album)->pluck('user_id')->first();
-
+            
             //either photo/album does not exist or user is not authorized
             if($user === null or $user !== auth()->user()->id)
                 return response()->json([
                     'success' => false,
                     'message' => 'Photo/Album not found or Not Authorized'
                 ],400);
-
+            
+            
             $old_photo = Photo::where('id',$id)->pluck('photo')->first();
             
             //Validate the data
@@ -134,7 +135,7 @@ class PhotoController extends Controller
                 //'taken_on' => $Get from meta data
             ]);
 
-            return response()->json(['photo' => $photo->id],200);
+            return response()->json([],200);
         }
         catch(\Exception $e)
         {

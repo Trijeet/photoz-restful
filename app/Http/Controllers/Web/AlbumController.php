@@ -147,7 +147,7 @@ class AlbumController extends Controller
         }
         if($response->getStatusCode() == 200)
         {
-            return redirect('/home')->with('success','Album Successfully Updated');
+            return redirect('/albums/'.$id)->with('success','Album Successfully Updated');
             //return view('pages.success')->with(['message' => 'Album Successfully Updated']);
         }
         else

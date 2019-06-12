@@ -97,13 +97,12 @@ class PhotoController extends Controller
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
             return redirect('/home')->with('error','Unauthorized Access');
         else
-            return view('photo.editphoto')->with(session(['album_id',$photo->album_id,'photo_id',$id]))
+            return view('photo.editphoto')->with(session(['photo_id'=>$id]))
                 ->with('photo',$photo);            
     }
 
     public function edit(Request $request, $id)
     {
-        return 'Asdadsa';
         $req = new Client;            
         try
         {               //$req->request('POST',url('/').'/api/albums/'.$id,[
@@ -134,8 +133,7 @@ class PhotoController extends Controller
             $errors = [];
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
-            return redirect('/photos/'.$id.'/edit')->with('error',$errors)->with('album_id',$photo->album_id)
-                        ->with('photo_id',$id);;
+            return redirect('/photos/'.$id.'/edit')->with('error',$errors)->with('photo_id',$id);;
         }
         if($response->getStatusCode() == 200)
         {
@@ -144,7 +142,7 @@ class PhotoController extends Controller
         else
         {
             return 'Internal Server Error!<br>Check api/albums/create<br>';
-        }            
+        }          
     }
 
     public function show($id)

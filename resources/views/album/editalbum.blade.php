@@ -25,7 +25,7 @@
                 </div>
                 <div class='form-group'>
                     {{ Form::label('album_description', 'Album Description')}}
-                    {{ Form::text('album_description', isset($album)?$album->album_description:'', ['class'=>'form-control', 'placeholder'=>'Enter Album Description'])}}
+                    {{ Form::textarea('album_description', isset($album)?$album->album_description:'', ['class'=>'form-control', 'placeholder'=>'Enter Album Description'])}}
                 </div>
                 <div class='form-group'>
                     {{ Form::label('privacy', 'Privacy')}}
