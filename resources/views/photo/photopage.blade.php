@@ -25,6 +25,25 @@
                     <br>
                     Created At - {{$photo['created_at']}} <br>
                     Last Modified At - {{$photo['updated_at']}} <br>
+
+                    <br> 
+
+                    Likes - {{isset($likes)?$likes:0}}
+                    @if(isset($user_status) and $user_status !== -1)
+                        @if($user_status == 0)
+                            {{Form::open(['action'=>['Web\PhotoController@like',$photo['id']],
+                                        'method'=>'put',
+                                        'class'=>'pull-right'])}}
+                                {{Form::submit('Like',['class'=>'btn btn-primary pull-right'])}}
+                            {{Form::close()}}
+                        @else
+                            {{Form::open(['action'=>['Web\PhotoController@unlike',$photo['id']],
+                                        'method'=>'put',
+                                        'class'=>'pull-right'])}}
+                                {{Form::submit('Unlike',['class'=>'btn btn-primary pull-right'])}}
+                            {{Form::close()}}
+                        @endif
+                    @endif
                 </div>
                 <br>
             </div>

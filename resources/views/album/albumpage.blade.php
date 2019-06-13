@@ -25,6 +25,25 @@
                     <br>
                     Created At - {{$album['created_at']}} <br>
                     Last Modified At - {{$album['updated_at']}} <br>
+
+                    <br> 
+
+                    Likes - {{isset($likes)?$likes:0}}
+                    @if(isset($user_status) and $user_status !== -1)
+                        @if($user_status == 0)
+                            {{Form::open(['action'=>['Web\AlbumController@like',$album['id']],
+                                        'method'=>'put',
+                                        'class'=>'pull-right'])}}
+                                {{Form::submit('Like',['class'=>'btn btn-primary pull-right'])}}
+                            {{Form::close()}}
+                        @else
+                            {{Form::open(['action'=>['Web\AlbumController@unlike',$album['id']],
+                                        'method'=>'put',
+                                        'class'=>'pull-right'])}}
+                                {{Form::submit('Unlike',['class'=>'btn btn-primary pull-right'])}}
+                            {{Form::close()}}
+                        @endif
+                    @endif
                 </div>
                 <br>
                 <div class="card-header">Photos</div>

@@ -6,6 +6,7 @@ use Auth;
 use Session;
 
 use App\Album;
+use App\Likes_album;
 
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
@@ -190,8 +191,17 @@ class AlbumController extends Controller
             if($response->getStatusCode() == 200)
             {
                 $data = json_decode($response->getBody()->getContents(), true);
+
+                $likes = Likes_album::where('album_id',$id)->count();
                 
-                return view('album.albumpage')->with('album',$data['data'][0])->with('photos',$data['photos']);
+                $user_status = -1;
+                if(Auth::check())
+                {
+                    $user_status = Likes_album::where('album_id',$id)->where('user_id',Auth::user()->id)->count();
+                }
+
+                return view('album.albumpage')->with('album',$data['data'][0])->with('photos',$data['photos'])
+                        ->with('likes',$likes)->with('user_status',$user_status);
             }
             else
             {
@@ -236,6 +246,47 @@ class AlbumController extends Controller
                 return 'Internal Server Error!<br>Check api/albums/delete<br>'.$response;
             } 
             
+        }
+        catch(\Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+
+    public function like($id)
+    {
+        //return 'like album '.$id;
+        try
+        {
+            $record = Likes_album::where('album_id',$id)
+                    ->where('user_id',Auth::user()->id)->count();
+            if($record !== 0)
+                return redirect('/albums/'.$id)->with('error','Already liked');
+            
+            Likes_album::create(['user_id'=>Auth::user()->id,
+                                'album_id'=>$id]);
+            return redirect('/albums/'.$id);
+        }
+        catch(\Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+
+    public function unlike($id)
+    {
+        //return 'un  like album';
+        try
+        {
+            $record = Likes_album::where('album_id',$id)
+                    ->where('user_id',Auth::user()->id)->count();
+            if($record === 0)
+                return redirect('/albums/'.$id)->with('error','Not liked');
+
+
+            $record = Likes_album::where('album_id',$id)
+                        ->where('user_id',Auth::user()->id)->delete();
+            return redirect('/albums/'.$id);
         }
         catch(\Exception $e)
         {

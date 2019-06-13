@@ -49,3 +49,11 @@ Route::get('/photos/{id}/edit','Web\PhotoController@editphoto')->middleware('aut
 Route::put('/photos/{id}','Web\PhotoController@edit')->middleware('auth');
 Route::get('/photos/{id}','Web\PhotoController@show');
 Route::delete('/photos/{id}','Web\PhotoController@delete')->middleware('auth');
+
+
+//Likes
+Route::put('/albums/{id}/like','Web\AlbumController@like')->middleware('auth');
+Route::put('/albums/{id}/unlike','Web\AlbumController@unlike')->middleware('auth');
+
+Route::put('/photos/{id}/like','Web\PhotoController@like')->middleware('auth');
+Route::put('/photos/{id}/unlike','Web\PhotoController@unlike')->middleware('auth');
