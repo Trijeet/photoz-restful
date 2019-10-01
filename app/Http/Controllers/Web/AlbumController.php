@@ -33,11 +33,6 @@ class AlbumController extends Controller
         try
         {
             $response = $req->request('POST',url('/').'/api/albums',[
-                    /*'form_params' => [
-                        'album_name' => $request->album_name,
-                        'album_description' => $request->album_description,
-                        'privacy' => $request->privacy,
-                    ],*/
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
                         'Accept'        => 'application/json',
@@ -70,12 +65,10 @@ class AlbumController extends Controller
             foreach($data as $k=>$v)
                 $errors[$k]=$v;
             return redirect('/albums/create')->with('error',$errors);
-            //return view('album.createalbum')->with(['error'=>$errors]);
         }
         if($response->getStatusCode() == 201)
         {
             return redirect('/home')->with('success','Album Successfully Created');
-            //return view('pages.success')->with(['message' => 'Album Successfully Created']);
         }
         else
         {
@@ -94,16 +87,10 @@ class AlbumController extends Controller
 
     public function edit(Request $request, $id)
     {
-        //dd($request);
         $req = new Client;            
         try
         {
             $response = $req->request('POST',url('/').'/api/albums/'.$id,[
-                    /*'form_params' => [
-                        'album_name' => $request->album_name,
-                        'album_description' => $request->album_description,
-                        'privacy' => $request->privacy,
-                    ],*/
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
                         'Accept'        => 'application/json',
@@ -252,7 +239,7 @@ class AlbumController extends Controller
             return $e->getMessage();
         }
     }
-
+    //Convert to ajax call
     public function like($id)
     {
         //return 'like album '.$id;
@@ -272,10 +259,9 @@ class AlbumController extends Controller
             return $e->getMessage();
         }
     }
-
+    //Convert to ajax call
     public function unlike($id)
     {
-        //return 'un  like album';
         try
         {
             $record = Likes_album::where('album_id',$id)

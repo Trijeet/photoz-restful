@@ -34,14 +34,8 @@ class PhotoController extends Controller
     {
         $req = new Client;
         try
-        {   
-            //dd($request);
+        {
             $response = $req->request('POST',url('/').'/api/photos',[
-                    /*'form_params' => [
-                        'album_id' => $request->album_id,
-                        'photo_description' => $request->photo_description,
-                        'privacy' => $request->privacy,
-                    ],*/
                     'headers' => [
                         'Authorization' => 'Bearer '.Session::get('access_token'),        
                         'Accept'        => 'application/json',
@@ -80,7 +74,6 @@ class PhotoController extends Controller
         {   
             $photo_id = json_decode($response->getBody(),true)['photo'];
             return redirect('/photos/'.$photo_id)->with('success','Photo Uploaded Successfully!');
-            //return view('pages.success')->with('message','Photo Successfully Uploaded');
         }
         else
         {   
@@ -92,7 +85,6 @@ class PhotoController extends Controller
     {
         $photo = Photo::find($id);
         if($photo === null)
-            //return view('pages.error')->with('message','No Such Photo');
             return redirect('/home')->with('error','No Such Photo');
         $album = Album::find($photo->album_id);
         if($album == null or Auth::guest() or Auth::user()->id!==$album->user_id)
@@ -106,7 +98,7 @@ class PhotoController extends Controller
     {
         $req = new Client;            
         try
-        {               //$req->request('POST',url('/').'/api/albums/'.$id,[
+        {
             $response = $req->request('POST',url('/').'/api/photos/'.$id,[
                     'headers' => [
                         'Authorization' => 'Bearer ' . Session::get('access_token'),        
@@ -220,13 +212,11 @@ class PhotoController extends Controller
             catch(BadResponseException $ex)
             {
                 return redirect('/home')->with('error','Unauthorized');
-                //return view('pages.unauth');//->with(['message'=>'Unauthorized']);
             }
 
             if($response->getStatusCode()==200)
             {
                 return redirect('/home')->with('success','Photo Successfully Deleted!');
-                //return view('pages.success')->with('message','Photo Successfully Deleted!');
             }
             else
             {
@@ -240,6 +230,7 @@ class PhotoController extends Controller
         }
     }
 
+    //change to ajax calls
     public function like($id)
     {
         try
@@ -258,7 +249,8 @@ class PhotoController extends Controller
             return $e->getMessage();
         }
     }
-
+    
+    //change to ajax calls
     public function unlike($id)
     {
         try
