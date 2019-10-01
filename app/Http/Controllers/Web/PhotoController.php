@@ -240,6 +240,7 @@ class PhotoController extends Controller
         }
     }
 
+    //change to ajax calls
     public function like($id)
     {
         try
@@ -258,7 +259,8 @@ class PhotoController extends Controller
             return $e->getMessage();
         }
     }
-
+    
+    //change to ajax calls
     public function unlike($id)
     {
         try
